@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="landing-container">
+    <div class="landing-card fade-in">
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <div class="envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-paper"></div>
+                <div class="envelope-left"></div>
+                <div class="envelope-right"></div>
+                <div class="envelope-bottom"></div>
+                <div class="envelope-flap-wrapper">
+                    <div class="envelope-flap"></div>
+                </div>
+                <!-- The wax seal button -->
+                <button class="wax-seal-btn pulse" title="Abrir Convite" id="open-btn"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('open-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const wrapper = document.getElementById('envelope-wrapper');
+        wrapper.classList.add('open');
+        
+        // Espera a animação terminar para redirecionar (1.8 segundos)
+        setTimeout(function() {
+            window.location.href = "{% url 'invitation' %}";
+        }, 1800);
+    });
+</script>
+{% endblock %}
