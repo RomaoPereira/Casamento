@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="invitation-container">
+    <div class="invitation-card rsvp-card">
+        <h1 class="names" style="font-size: 3.5rem; margin-bottom: 2rem;">Confirmação de Presença</h1>
+        <p class="invitation-text" style="text-transform: none;">Por favor, digite seu nome abaixo para buscar seu convite.</p>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="GET" action="{% url 'rsvp' %}" class="rsvp-search-form">
+            <input type="text" name="q" value="{{ query }}" placeholder="Digite seu nome (ex: João da Silva)" class="rsvp-input" required>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        {% if query %}
+            <div class="rsvp-results">
+                {% if guests %}
+                    <p class="invitation-text" style="text-transform: none;">Encontramos o(s) seguinte(s) convite(s):</p>
+                    <ul class="guest-list">
+                        {% for guest in guests %}
+                            <li class="guest-item">
+                                <div class="guest-info">
+                                    <strong>{{ guest.name }}</strong>
+                                    <span class="status-badge status-{{ guest.status }}">{{ guest.get_status_display }}</span>
+                                </div>
+                                <div class="guest-actions">
+                                    <form method="POST" action="{% url 'rsvp_confirm' guest.id %}" class="inline-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="confirmed">
+                                        <button type="submit" class="btn btn-small btn-success {% if guest.status == 'confirmed' %}active{% endif %}">Vou</button>
+                                    </form>
+                                    <form method="POST" action="{% url 'rsvp_confirm' guest.id %}" class="inline-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="declined">
+                                        <button type="submit" class="btn btn-small btn-danger {% if guest.status == 'declined' %}active{% endif %}">Não Vou</button>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="error-msg">Nenhum convite encontrado com o nome "{{ query }}". Tente buscar por um nome diferente ou sobrenome.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="action-buttons" style="margin-top: 4rem;">
+            <a href="{% url 'invitation' %}" class="btn btn-secondary">← Voltar para o Convite</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
