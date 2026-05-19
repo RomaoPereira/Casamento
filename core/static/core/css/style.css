@@ -604,3 +604,70 @@ body {
     color: #1e8e3e;
     border: 1px solid #ceead6;
 }
+
+/* =========================================
+   Gift List Page
+   ========================================= */
+.gift-card {
+    padding: 3rem 2rem;
+    text-align: left;
+}
+
+.gift-intro {
+    font-family: var(--font-text);
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+}
+
+.gift-intro p {
+    margin-bottom: 2rem;
+    line-height: 1.9;
+}
+
+.color-palette-images {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    margin: 2.5rem 0;
+}
+
+.placeholder-img {
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.pix-section {
+    background-color: #fcfbfa;
+    border: 1px solid #e8e9e1;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.pix-section h3 {
+    font-family: var(--font-heading);
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.gift-list-section h3 {
+    font-family: var(--font-heading);
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+}

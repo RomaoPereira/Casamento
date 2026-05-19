@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="invitation-container">
+    <div class="invitation-card gift-card">
+        <h1 class="names" style="font-size: 3.5rem; margin-bottom: 2rem;">Lista de Presentes</h1>
+        
+        <div class="gift-intro">
+            <p>Queridos amigos e familiares,</p>
+            <p>A presença de vocês já é o maior presente que poderíamos receber nesse momento tão especial.<br>
+            Criamos esta lista apenas para quem desejar nos presentear de forma opcional, sem qualquer obrigação.</p>
+            
+            <p>Para manter a harmonia da nossa futura casa, gostaríamos de seguir uma paleta de cores mais neutra e atemporal. Por isso, damos preferência para itens nas cores: <strong>branco, bege, madeira clara e tons neutros em geral</strong>, como mostram as imagens abaixo:</p>
+            
+            <!-- Espaço para as imagens da paleta de cores -->
+            <div class="color-palette-images">
+                <div class="placeholder-img" style="background-color: #fcfcfc; color: #888;">Branco/Bege</div>
+                <div class="placeholder-img" style="background-color: #e6dfd3; color: #888;">Madeira Clara</div>
+                <div class="placeholder-img" style="background-color: #d1ccca; color: #888;">Tons Neutros</div>
+            </div>
+
+            <p>Agradecemos imensamente todo carinho, apoio e amor compartilhado conosco!</p>
+            <br>
+        </div>
+
+        <div class="pix-section">
+            <hr>
+            <br>
+            <h3>Contribuir via PIX</h3>
+            <p>Se preferir, você pode contribuir com qualquer valor através do nosso PIX:</p>
+            <div class="pix-qrcode-placeholder" style="margin: 2rem auto; width: 280px; height: 280px; border: 2px dashed #6a7c5b; border-radius: 12px; display: flex; justify-content: center; align-items: center; background: #fafafa;">
+                <span style="color: #6a7c5b; text-align: center; font-size: 1.2rem;">Coloque seu<br>QR Code Aqui<br>(Ex: 300x300 px)</span>
+            </div>
+            <p><strong>Chave PIX:</strong> contato.romaopereira@gmail.com</p>
+            <br>
+            <hr>
+        </div>
+
+        <div class="gift-list-section">
+            <br>
+            <h3>Presentes Físicos</h3>
+            
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if gifts %}
+                <ul class="guest-list gift-list">
+                    {% for gift in gifts %}
+                        <li class="guest-item">
+                            <div class="guest-info">
+                                <strong>{{ gift.name }}</strong>
+                            </div>
+                            <div class="guest-actions">
+                                <form method="POST" action="{% url 'choose_gift' gift.id %}" class="inline-form" onsubmit="return confirm('Você confirma que deseja nos presentear com este item?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-small btn-success">Vou presentear!</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="invitation-text" style="text-align: center; margin-top: 2rem;">No momento, todos os itens da nossa lista já foram escolhidos ou ainda não foram adicionados. Muito obrigado!</p>
+            {% endif %}
+        </div>
+
+        <div class="action-buttons" style="margin-top: 4rem;">
+            <a href="{% url 'invitation' %}" class="btn btn-secondary">← Voltar para o Convite</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

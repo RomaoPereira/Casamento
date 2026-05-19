@@ -16,3 +16,14 @@ class Guest(models.Model):
     class Meta:
         verbose_name = "Convidado"
         verbose_name_plural = "Convidados"
+
+class Gift(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Nome do Presente")
+    is_chosen = models.BooleanField(default=False, verbose_name="Já foi escolhido?")
+
+    def __str__(self):
+        return f"{self.name} - {'(Escolhido)' if self.is_chosen else '(Disponível)'}"
+    
+    class Meta:
+        verbose_name = "Presente"
+        verbose_name_plural = "Lista de Presentes"
