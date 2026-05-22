@@ -2,56 +2,109 @@
 {% load static %}
 
 {% block content %}
-<div class="invitation-container fade-in">
-    <div class="invitation-card">
-        <div class="verse">
-            <p>"Para que todos vejam, e saibam, e considerem, e juntamente entendam que a mão do Senhor fez isto."</p>
-            <span>- Isaías 41:20</span>
+<div class="scrapbook-container fade-in">
+    
+    <!-- Corner Flowers (Pure CSS/SVG) -->
+    <div class="corner-flower flower-top-left">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
+            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
+            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+        </svg>
+    </div>
+    <div class="corner-flower flower-top-right">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
+            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
+            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+        </svg>
+    </div>
+    <div class="corner-flower flower-bottom-left">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
+            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
+            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+        </svg>
+    </div>
+    <div class="corner-flower flower-bottom-right">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
+            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
+            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
+        </svg>
+    </div>
+
+    <div class="scrap-canvas">
+        
+        <!-- Main Badge -->
+        <div class="scrap-item scrap-main-badge">
+            <h1>Romão &<br>Dhennyfy</h1>
+            <div class="date">23 Julho 2026</div>
+            <div class="location">São José do Belmonte - PE</div>
         </div>
 
-        <div class="blessing">
-            COM A BENÇÃO DE DEUS E SEUS PAIS
-        </div>
-
-        <div class="parents-section">
-            <div class="parents-groom">
-                <p>IRIS DOMINGOS PEREIRA</p>
-                <p>ROMERO LEITE DE ARAÚJO</p>
+        <!-- Photos Section -->
+        <div class="scrap-photos-container">
+            <!-- Polaroid 1 -->
+            <div class="scrap-item scrap-polaroid polaroid-1">
+                <div class="polaroid-img-placeholder">
+                    <!-- ADICIONE SUA FOTO NA LINHA ABAIXO (SUBSTITUA SUA_FOTO_AQUI.jpg pelo nome da sua imagem) -->
+                    <!-- <img src="{% static 'core/img/SUA_FOTO_AQUI.jpg' %}" alt="Foto Romão e Dhennyfy"> -->
+                    Sua Foto Aqui
+                </div>
+                <div class="polaroid-caption">Nosso Sim</div>
             </div>
-            <div class="parents-divider">
-                🌿
-            </div>
-            <div class="parents-bride">
-                <p>DAMARES SILVA DE LIMA SOUSA</p>
-                <p>GIVANILDO PINTO DE SOUSA</p>
-            </div>
-        </div>
 
-        <div class="names-section">
-            <h1 class="names">Romão e Dhennyfy</h1>
-            <div class="invitation-text">
-                CONVIDAM PARA A CERIMÔNIA DE SEU CASAMENTO
+            <!-- Polaroid 2 -->
+            <div class="scrap-item scrap-polaroid polaroid-2">
+                <div class="polaroid-img-placeholder">
+                    <!-- ADICIONE SUA FOTO NA LINHA ABAIXO (SUBSTITUA SUA_FOTO_AQUI.jpg pelo nome da sua imagem) -->
+                    <!-- <img src="{% static 'core/img/SUA_FOTO_AQUI.jpg' %}" alt="Foto Romão e Dhennyfy"> -->
+                    Sua Foto Aqui
+                </div>
+                <div class="polaroid-caption">Amor</div>
             </div>
         </div>
 
-        <div class="date-section">
-            <div class="month">JULHO</div>
-            <div class="date-row">
-                <div class="weekday">QUINTA</div>
-                <div class="day">23</div>
-                <div class="time">ÀS 16H</div>
+        <!-- Details and RSVP Row -->
+        <div class="scrap-details-row">
+            
+            <!-- Location Details Card -->
+            <div class="scrap-item scrap-location-info">
+                <h3>Detalhes do Evento</h3>
+                <p><strong>Arretados Festa e Evento</strong></p>
+                <p>Início às 16:30 da tarde</p>
+                <a href="https://maps.app.goo.gl/rFEpD4f9WZQrb45N6" target="_blank" class="btn btn-primary" style="margin-top: 1rem; font-size: 0.9rem; padding: 0.8rem 1.5rem;">Ver no Mapa</a>
             </div>
-            <div class="year">2026</div>
+
+            <!-- Details Badge (RSVP) -->
+            <a href="{% url 'rsvp' %}" class="scrap-item scrap-details">
+                <span>Presença</span>
+                <p>Confirme sua Presença</p>
+                <div class="tassel"></div>
+            </a>
+            
         </div>
 
-        <div class="location-section">
-            <p>NO ARRETADOS FESTA, SÃO JOSÉ DO BELMONTE-PE</p>
+        <!-- Napkin (Gift List) -->
+        <a href="{% url 'gift_list' %}" class="scrap-item scrap-napkin">
+            <p>Acesse nossa<br>Lista de Presentes</p>
+        </a>
+
+        <!-- Location Polaroid (Igreja/Local) -->
+        <div class="scrap-item scrap-polaroid polaroid-3">
+            <div class="polaroid-img-placeholder">
+                <!-- ADICIONE A FOTO DO LOCAL NA LINHA ABAIXO (SUBSTITUA FOTO_DO_LOCAL.jpg pelo nome da sua imagem) -->
+                <!-- <img src="{% static 'core/img/FOTO_DO_LOCAL.jpg' %}" alt="Local do Casamento"> -->
+                Foto do Local
+            </div>
+            <div class="polaroid-caption">O Local</div>
         </div>
 
-        <div class="action-buttons">
-            <a href="{% url 'gift_list' %}" class="btn btn-secondary">Lista de Presentes</a>
-            <a href="{% url 'rsvp' %}" class="btn btn-secondary">Confirmação de Presença</a>
-        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,7 +1,9 @@
 :root {
-    --bg-color: #fcfbfa; /* Warm off-white */
-    --text-color: #4a4f43; /* Soft dark olive */
-    --accent-color: #6a7c5b; /* Olive green */
+    --bg-color: #fdfafb; /* Very soft pinkish off-white */
+    --text-color: #4a3b40; /* Soft dark plum/grey */
+    --accent-color: #D81B60; /* Fuchsia Pink */
+    --accent-light: #f48fb1;
+    --accent-dark: #ad1457;
     --gold-color: #d4af37; /* Gold for accents */
     --font-heading: 'Playfair Display', serif;
     --font-text: 'Lato', sans-serif;
@@ -217,6 +219,18 @@ body {
 .btn-secondary:hover {
     background-color: var(--accent-color);
     color: white;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+    border: 1px solid var(--accent-color);
+    margin: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-dark);
+    border-color: var(--accent-dark);
 }
 
 .pulse {
@@ -564,21 +578,21 @@ body {
 
 .btn-success {
     background-color: transparent;
-    color: #1e8e3e;
-    border: 1px solid #1e8e3e;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
 }
 .btn-success:hover, .btn-success.active {
-    background-color: #1e8e3e;
+    background-color: var(--accent-color);
     color: white;
 }
 
 .btn-danger {
     background-color: transparent;
-    color: #d93025;
-    border: 1px solid #d93025;
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
 }
 .btn-danger:hover, .btn-danger.active {
-    background-color: #d93025;
+    background-color: #9e9e9e;
     color: white;
 }
 
@@ -670,4 +684,317 @@ body {
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
     text-align: center;
+}
+
+/* =========================================
+   Scrapbook Layout (Vertical & Linear)
+   ========================================= */
+.scrapbook-container {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+    background-color: var(--bg-color);
+    background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="%23f0e6ea"/></pattern></defs><rect width="100%" height="100%" fill="url(%23dots)"/></svg>');
+    display: flex;
+    justify-content: center;
+    padding: 4rem 1rem;
+}
+
+.scrap-canvas {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem; /* Linear spacing */
+    position: relative;
+    z-index: 2;
+}
+
+.scrap-item {
+    position: relative; /* Changed from absolute to relative for linear flow */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    z-index: 5;
+}
+
+.scrap-item:hover {
+    z-index: 50;
+    transform: scale(1.02) !important;
+}
+
+/* Corner CSS Flowers (SVG wrappers) */
+.corner-flower {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+    opacity: 0.8;
+    pointer-events: none;
+}
+.corner-flower svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--accent-light); /* Fuchsia lighter tone */
+}
+.flower-top-left { top: -2rem; left: -2rem; transform: rotate(0deg); }
+.flower-top-right { top: -2rem; right: -2rem; transform: scaleX(-1); }
+.flower-bottom-left { bottom: -2rem; left: -2rem; transform: scaleY(-1); }
+.flower-bottom-right { bottom: -2rem; right: -2rem; transform: scale(-1, -1); }
+
+/* Main Badge */
+.scrap-main-badge {
+    background: #fff;
+    width: 100%;
+    max-width: 450px;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 12px;
+    border: 2px solid var(--accent-color);
+    transform: rotate(-1deg);
+    margin-bottom: -1rem; /* Slight overlap */
+}
+
+.scrap-main-badge::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px dashed var(--accent-light);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.scrap-main-badge h1 {
+    font-family: var(--font-script);
+    font-size: 4rem;
+    color: var(--accent-dark);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.scrap-main-badge .date {
+    font-family: var(--font-heading);
+    color: var(--text-color);
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.scrap-main-badge .location {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+}
+
+/* Details and RSVP Row */
+.scrap-details-row {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+/* Location Details Card */
+.scrap-location-info {
+    background: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    max-width: 320px;
+    transform: rotate(-3deg);
+    position: relative;
+}
+
+.scrap-location-info::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    /* Mimics a piece of tape holding the paper */
+}
+
+.scrap-location-info h3 {
+    font-family: var(--font-script);
+    font-size: 2.2rem;
+    color: var(--accent-dark);
+    margin-bottom: 0.5rem;
+}
+
+.scrap-location-info p {
+    font-family: var(--font-heading);
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.scrap-location-info strong {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+/* Details Badge (RSVP) */
+.scrap-details {
+    background: var(--accent-color);
+    color: white;
+    width: 100%;
+    max-width: 250px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    border-radius: 20px 0 20px 0;
+    text-decoration: none;
+    display: block;
+    transform: rotate(2deg);
+}
+
+.scrap-details::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 5px; right: 5px; bottom: 5px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 15px 0 15px 0;
+}
+
+.scrap-details span {
+    font-family: var(--font-script);
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.scrap-details p {
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.scrap-details .tassel {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 40px;
+    background: var(--accent-dark);
+    border-radius: 0 0 10px 10px;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+
+/* Photo Section Container */
+.scrap-photos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+/* Polaroids */
+.scrap-polaroid {
+    background: white;
+    padding: 15px 15px 60px 15px;
+    width: 260px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.polaroid-1 { transform: rotate(-3deg); }
+.polaroid-2 { transform: rotate(4deg); margin-top: 2rem; }
+.polaroid-3 { transform: rotate(-2deg); width: 300px; /* Location polaroid */ }
+
+.polaroid-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 1rem;
+    border: 1px dashed #ccc;
+    position: relative;
+    overflow: hidden;
+}
+
+.polaroid-img-placeholder img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+.polaroid-caption {
+    font-family: var(--font-script);
+    font-size: 1.8rem;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 15px;
+    position: absolute;
+    bottom: 15px;
+    width: calc(100% - 30px);
+}
+
+/* Napkin / Gifts */
+.scrap-napkin {
+    background: #fdfcf9;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: inset -5px -5px 15px rgba(0,0,0,0.03), 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+    transform: rotate(-4deg);
+    margin: 0 auto;
+}
+
+.scrap-napkin::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 0 50px 50px;
+    border-color: transparent transparent #eae9e6 transparent;
+    box-shadow: -2px -2px 5px rgba(0,0,0,0.05);
+}
+
+.scrap-napkin p {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    line-height: 1.5;
+}
+
+/* Decorative Stamp */
+.scrap-stamp-linear {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    transform: rotate(15deg);
+    mix-blend-mode: multiply;
+    z-index: 20;
+}
+.scrap-stamp-linear img {
+    width: 100%;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
 }
