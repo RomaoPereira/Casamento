@@ -3,11 +3,13 @@
 
 {% block content %}
 <div class="landing-container">
-    <div class="landing-card fade-in">
-        <div class="envelope-wrapper" id="envelope-wrapper">
+    <div class="landing-card fade-in" style="flex-direction: column;">
+        <div class="envelope-wrapper" id="envelope-wrapper" style="margin-bottom: 2rem;">
             <div class="envelope">
                 <div class="envelope-back"></div>
-                <div class="envelope-paper"></div>
+                <div class="envelope-paper" style="overflow: hidden;">
+                    <img src="{% static 'core/img/convite.jpg' %}" alt="Foto Convite" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+                </div>
                 <div class="envelope-left"></div>
                 <div class="envelope-right"></div>
                 <div class="envelope-bottom"></div>
@@ -15,9 +17,12 @@
                     <div class="envelope-flap"></div>
                 </div>
                 <!-- The wax seal button -->
-                <button class="wax-seal-btn pulse" title="Abrir Convite" id="open-btn"></button>
+                <button class="wax-seal-btn pulse" title="Abrir Convite" id="open-btn" style="background: none; border: none; box-shadow: none; display: flex; justify-content: center; align-items: center;">
+                    <img src="{% static 'core/img/golden_seal.png' %}" alt="Selo de Cera" style="width: 100px; height: 100px; object-fit: contain; pointer-events: none;">
+                </button>
             </div>
         </div>
+        <h1 style="font-family: var(--font-script); color: var(--accent-color); text-shadow: 1px 1px 3px rgba(0,0,0,0.1); font-size: 2.5rem; text-align: center; margin-top: 1rem;">Romão e Dhennyfy</h1>
     </div>
 </div>
 

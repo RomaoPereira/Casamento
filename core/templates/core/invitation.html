@@ -2,109 +2,803 @@
 {% load static %}
 
 {% block content %}
+<style>
+    /* Overriding default container padding to fit the landscape banner at the very top */
+    .scrapbook-container {
+        padding: 0 0 4rem 0 !important;
+        background-color: #ffffff;
+        width: 100%;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Landscape Hero Header (Image Placeholder) */
+    .hero-landscape {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        height: 280px; /* Adjust this height based on your image */
+        background-color: #f0f0f0; /* Fallback color before image loads */
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .hero-landscape img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .hero-placeholder-text {
+        color: #999;
+        font-family: var(--font-heading);
+        font-size: 1.2rem;
+        z-index: 2;
+        text-align: center;
+        border: 2px dashed #ccc;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+    }
+
+    /* Quote Box */
+    .quote-box {
+        background: transparent;
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        border-radius: 15px;
+        padding: 1rem 2.5rem;
+        text-align: center;
+        max-width: 650px;
+        width: 90%;
+        margin: -60px auto 4rem; /* Overlap the landscape */
+        position: relative;
+        z-index: 10;
+        border: none;
+        box-shadow: none;
+    }
+    .quote-box p { 
+        font-family: 'Allura', cursive; 
+        font-weight: 600; 
+        font-size: 2.8rem; 
+        line-height: 1.4;
+        margin-bottom: 1rem; 
+        color: #000;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+    }
+    @media (max-width: 768px) {
+        .quote-box p {
+            font-size: 2rem;
+            line-height: 1.3;
+        }
+        .quote-box {
+            padding: 1rem;
+            margin: -60px auto 2rem;
+        }
+    }
+    .quote-box .reference { 
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.05rem; 
+        text-align: right; 
+        color: #111;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+    }
+
+    /* Main Container for Layout Elements */
+    .layout-container {
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Envelope & Top Polaroid Row */
+    .top-elements-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+        .top-elements-row {
+            flex-direction: column;
+            gap: 4rem;
+        }
+    }
+
+    /* Static CSS Envelope with Floating Animation */
+    @keyframes floatEnvelope {
+        0% { transform: translateY(0px) rotate(-3deg); }
+        50% { transform: translateY(-10px) rotate(-2deg); }
+        100% { transform: translateY(0px) rotate(-3deg); }
+    }
+
+    .envelope-container {
+        position: relative;
+        width: 260px;
+        height: 180px;
+        margin-top: 40px; /* Space for the popped-out letter */
+        transform: rotate(-3deg);
+        animation: floatEnvelope 6s ease-in-out infinite;
+        filter: drop-shadow(0 15px 20px rgba(216, 27, 96, 0.15));
+    }
+    .env-back { 
+        position: absolute; width: 100%; height: 100%; 
+        background: linear-gradient(135deg, #9c0e3e, #7a0b31); border-radius: 4px; 
+    }
+    .env-letter {
+        position: absolute;
+        width: 90%;
+        height: 170px;
+        background: white;
+        top: -60px; left: 5%;
+        border-radius: 4px;
+        box-shadow: 0 -5px 25px rgba(0,0,0,0.08);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #eee;
+        transform: rotate(-6deg);
+        z-index: 2;
+    }
+    .env-letter-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+        padding: 6px;
+        box-sizing: border-box;
+    }
+    .env-front-left {
+        position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #c2185b, #a8154e);
+        clip-path: polygon(0 0, 50% 50%, 0 100%); z-index: 3;
+    }
+    .env-front-right {
+        position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ad1457, #94114a);
+        clip-path: polygon(100% 0, 50% 50%, 100% 100%); z-index: 3;
+    }
+    .env-front-bottom {
+        position: absolute; width: 100%; height: 100%; background: linear-gradient(180deg, #d81b60, #b81752);
+        clip-path: polygon(0 100%, 50% 50%, 100% 100%); z-index: 4;
+    }
+
+    /* Polaroids */
+    .polaroid-pic {
+        background: white;
+        padding: 12px 12px 45px 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        width: 220px;
+        transition: transform 0.3s ease;
+    }
+    .polaroid-pic:hover {
+        transform: scale(1.05) rotate(0deg) !important;
+        z-index: 20;
+    }
+    .polaroid-pic.tilt-right { transform: rotate(6deg); }
+    .polaroid-pic.tilt-left { transform: rotate(-5deg); }
+    
+    .polaroid-img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        background: #f0f0f0;
+        border: 1px dashed #ccc;
+        display: flex; justify-content: center; align-items: center;
+        color: #999; font-size: 0.9rem; font-family: var(--font-text);
+        position: relative;
+        overflow: hidden;
+    }
+    .polaroid-img img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+    }
+
+    /* Typography & Titles Section */
+    .blessing-text {
+        font-family: var(--font-heading);
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #333;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    .parents-grid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        font-family: var(--font-heading);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #666;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .parents-grid span { 
+        display: block; 
+        line-height: 1.6;
+    }
+    .parents-ampersand {
+        font-family: var(--font-script);
+        font-size: 1.8rem;
+        color: #999;
+        text-transform: lowercase;
+        margin: 0 0.5rem;
+    }
+    @media (max-width: 600px) {
+        .parents-grid {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .parents-ampersand {
+            transform: rotate(90deg);
+            margin: 0.2rem 0;
+        }
+    }
+
+    .couple-names {
+        font-family: var(--font-script);
+        font-size: 5rem;
+        color: #111;
+        text-align: center;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+    }
+    @media (max-width: 600px) {
+        .couple-names { font-size: 4rem; }
+    }
+
+    .invitation-text {
+        font-family: var(--font-heading);
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #555;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    /* Date Component */
+    .date-wrapper {
+        text-align: center;
+        margin-bottom: 3rem;
+        border-top: 1px solid #777;
+        border-bottom: 1px solid #777;
+        padding: 1.2rem 0;
+        width: 100%;
+        max-width: 450px;
+    }
+    .date-weekday { 
+        font-family: var(--font-text); 
+        font-size: 0.8rem; 
+        letter-spacing: 3px; 
+        color: #555; 
+        margin-bottom: 0.5rem; 
+        text-transform: uppercase; 
+        font-weight: 700;
+    }
+    .date-main { 
+        font-family: var(--font-heading); 
+        font-size: 1.5rem; 
+        letter-spacing: 3px; 
+        color: #222; 
+        text-transform: uppercase; 
+    }
+
+    /* Countdown Timer */
+    .timer-title {
+        font-family: var(--font-text);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #111;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .timer-grid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.2rem;
+        color: #d81b60; /* Pink matching prototype */
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        margin-bottom: 5rem;
+        text-align: center;
+    }
+    .timer-col { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+    }
+    .timer-label { 
+        font-family: var(--font-text); 
+        font-size: 0.55rem; 
+        letter-spacing: 1px; 
+        color: #666; 
+        margin-top: 5px; 
+    }
+    .timer-separator {
+        color: #444;
+        font-size: 2rem;
+        margin-top: -15px; /* Alignment fix */
+    }
+
+    /* Bottom Grid Sections (Scrapbook Staggered Layout) */
+    .bottom-scrap-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 650px;
+        margin: 0 auto 4rem auto;
+    }
+    .scrap-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        margin-bottom: -40px; /* Overlap next row slightly */
+    }
+    .stagger-right {
+        margin-top: 100px; /* Push the right item down to create the zigzag effect */
+    }
+    @media (max-width: 768px) {
+        .scrap-row {
+            flex-direction: column;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        .stagger-right { margin-top: 0; }
+    }
+
+    /* Details Card */
+    .details-card {
+        background: white;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        text-align: center;
+        position: relative;
+        width: 260px;
+        margin: auto;
+        transform: rotate(-2deg);
+        border: 1px solid #f9f9f9;
+        transition: transform 0.3s ease;
+    }
+    .details-card:hover {
+        transform: scale(1.03) rotate(0deg);
+        z-index: 10;
+    }
+    .details-card:before {
+        content: '';
+        position: absolute;
+        top: -10px; left: 50%; transform: translateX(-50%);
+        width: 35px; height: 15px;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .details-card h3 { 
+        font-family: var(--font-script); 
+        font-size: 2.2rem; 
+        color: #d81b60; 
+        margin-bottom: 1rem; 
+        font-weight: normal;
+    }
+    .details-card p.location { 
+        font-family: var(--font-text); 
+        font-size: 0.9rem; 
+        margin-bottom: 0.5rem; 
+        color: #d81b60; 
+        font-weight: 700; 
+    }
+    .details-card p.time { 
+        font-family: var(--font-text);
+        color: #555; 
+        font-size: 0.8rem;
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+    }
+    .btn-pink {
+        background: #d81b60;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: inline-block;
+        text-transform: uppercase;
+        border: none;
+        letter-spacing: 1px;
+        transition: background 0.3s;
+    }
+    .btn-pink:hover {
+        background: #ad1457;
+        color: white;
+    }
+
+    /* RSVP Card */
+    .rsvp-card-styled {
+        background: #d81b60;
+        color: white;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        width: 250px;
+        border-radius: 12px;
+        margin: auto;
+        transform: rotate(3deg);
+        position: relative;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(216, 27, 96, 0.3);
+        transition: transform 0.3s ease;
+    }
+    .rsvp-card-styled:hover {
+        transform: scale(1.03) rotate(0deg);
+        z-index: 10;
+        color: white;
+    }
+    .rsvp-card-styled::after {
+        content: '';
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 30px;
+        background: #ad1457;
+        border-radius: 0 0 10px 10px;
+    }
+    .rsvp-card-styled h3 { 
+        font-family: var(--font-script); 
+        font-size: 3rem; 
+        margin-bottom: 1rem; 
+        font-weight: normal; 
+        line-height: 1;
+    }
+    .rsvp-card-styled p { 
+        font-family: var(--font-heading);
+        font-size: 0.8rem; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        font-weight: 700; 
+    }
+
+    /* Gift List Napkin */
+    .gift-napkin {
+        background: #fcfcfc;
+        width: 220px;
+        height: 220px;
+        margin: 0 auto 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+        box-shadow: inset -5px -5px 15px rgba(0,0,0,0.02), 0 8px 20px rgba(0,0,0,0.08);
+        position: relative;
+        transform: rotate(-2deg);
+        transition: transform 0.3s ease;
+    }
+    .gift-napkin:hover {
+        transform: scale(1.05) rotate(0deg);
+        color: #333;
+    }
+    .gift-napkin::after {
+        content: '';
+        position: absolute;
+        bottom: 0; right: 0;
+        width: 0; height: 0;
+        border-style: solid;
+        border-width: 0 0 45px 45px;
+        border-color: transparent transparent #efefeb transparent;
+        box-shadow: -2px -2px 5px rgba(0,0,0,0.05);
+    }
+    .gift-napkin p { 
+        font-family: var(--font-heading); 
+        font-size: 1.1rem; 
+        color: #444; 
+        line-height: 1.6; 
+    }
+
+    /* Embedded Gifts Section */
+    .gifts-embedded-section {
+        width: 100%;
+        max-width: 800px;
+        margin: 2rem auto 5rem auto;
+        text-align: center;
+        background: #fff;
+        padding: 3rem 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid #f9f9f9;
+    }
+    .gifts-intro-text {
+        font-family: var(--font-text);
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        text-align: left;
+    }
+    .color-palette-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+    .palette-box {
+        width: 160px;
+        height: 160px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        font-family: var(--font-heading);
+        font-size: 0.95rem;
+        color: #777;
+        text-align: center;
+        padding: 1rem;
+    }
+    .palette-branco { border: 1px dashed #ccc; background: #fafcfb; }
+    .palette-madeira { border: 1px solid #e0d5c1; background: #e4dac8; }
+    .palette-neutros { border: 1px solid #ccc; background: #c5c3c2; }
+    
+    .pix-standalone {
+        position: relative;
+    }
+    .pix-standalone::before, .pix-standalone::after {
+        content: '';
+        position: absolute;
+        width: 80%;
+        height: 1px;
+        background: #eee;
+        left: 10%;
+    }
+    .pix-standalone::before { top: 20px; }
+    .pix-standalone::after { bottom: 20px; }
+    
+    .pix-title {
+        font-family: var(--font-heading);
+        color: var(--accent-color);
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+        font-weight: normal;
+    }
+    .qr-placeholder {
+        width: 250px;
+        height: 250px;
+        border: 1px dashed #ccc;
+        margin: 2rem auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #667566;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+    .qr-placeholder img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+    .pix-key {
+        color: #111;
+        font-size: 0.95rem;
+        margin-top: 1rem;
+    }
+</style>
+
 <div class="scrapbook-container fade-in">
     
-    <!-- Corner Flowers (Pure CSS/SVG) -->
-    <div class="corner-flower flower-top-left">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
-            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
-            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-        </svg>
-    </div>
-    <div class="corner-flower flower-top-right">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
-            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
-            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-        </svg>
-    </div>
-    <div class="corner-flower flower-bottom-left">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
-            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
-            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-        </svg>
-    </div>
-    <div class="corner-flower flower-bottom-right">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,90 Q50,90 90,50 Q90,10 50,10 Q10,10 10,50 Z" />
-            <path d="M10,90 Q50,90 90,10" fill="none" stroke="var(--accent-dark)" stroke-width="2"/>
-            <path d="M40,50 Q60,30 80,40" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-            <path d="M50,70 Q70,70 80,60" fill="none" stroke="var(--accent-dark)" stroke-width="1"/>
-        </svg>
+    <!-- Landscape Header Image Placeholder -->
+    <div class="hero-landscape">
+       <img src="/static/core/img/local_pedido.jpg" alt="">
     </div>
 
-    <div class="scrap-canvas">
+    <!-- Bible Verse Quote Box -->
+    <div class="quote-box">
+        <p>"Para que todos vejam, e saibam, e considerem, e juntamente entendam que a mão do Senhor fez isto."</p>
+        <div class="reference">-Isaías 41:20</div>
+    </div>
+
+    <div class="layout-container">
         
-        <!-- Main Badge -->
-        <div class="scrap-item scrap-main-badge">
-            <h1>Romão &<br>Dhennyfy</h1>
-            <div class="date">23 Julho 2026</div>
-            <div class="location">São José do Belmonte - PE</div>
-        </div>
-
-        <!-- Photos Section -->
-        <div class="scrap-photos-container">
-            <!-- Polaroid 1 -->
-            <div class="scrap-item scrap-polaroid polaroid-1">
-                <div class="polaroid-img-placeholder">
-                    <!-- ADICIONE SUA FOTO NA LINHA ABAIXO (SUBSTITUA SUA_FOTO_AQUI.jpg pelo nome da sua imagem) -->
-                    <!-- <img src="{% static 'core/img/SUA_FOTO_AQUI.jpg' %}" alt="Foto Romão e Dhennyfy"> -->
-                    Sua Foto Aqui
+        <!-- Top Envelope & Right Polaroid -->
+        <div class="top-elements-row">
+            <div class="envelope-container">
+                <div class="env-back"></div>
+                <div class="env-letter">
+                    <img src="/static/core/img/conteudo_envelope_4.jpg" alt="Sua Foto" class="env-letter-img">
                 </div>
-                <div class="polaroid-caption">Nosso Sim</div>
+                <div class="env-front-left"></div>
+                <div class="env-front-right"></div>
+                <div class="env-front-bottom"></div>
             </div>
-
-            <!-- Polaroid 2 -->
-            <div class="scrap-item scrap-polaroid polaroid-2">
-                <div class="polaroid-img-placeholder">
-                    <!-- ADICIONE SUA FOTO NA LINHA ABAIXO (SUBSTITUA SUA_FOTO_AQUI.jpg pelo nome da sua imagem) -->
-                    <!-- <img src="{% static 'core/img/SUA_FOTO_AQUI.jpg' %}" alt="Foto Romão e Dhennyfy"> -->
-                    Sua Foto Aqui
+            
+            <div class="polaroid-pic tilt-right">
+                <div class="polaroid-img">
+                    <img src="/static/core/img/card_1.JPG.jpeg" alt="">
                 </div>
-                <div class="polaroid-caption">Amor</div>
             </div>
         </div>
 
-        <!-- Details and RSVP Row -->
-        <div class="scrap-details-row">
-            
-            <!-- Location Details Card -->
-            <div class="scrap-item scrap-location-info">
-                <h3>Detalhes do Evento</h3>
-                <p><strong>Arretados Festa e Evento</strong></p>
-                <p>Início às 16:30 da tarde</p>
-                <a href="https://maps.app.goo.gl/rFEpD4f9WZQrb45N6" target="_blank" class="btn btn-primary" style="margin-top: 1rem; font-size: 0.9rem; padding: 0.8rem 1.5rem;">Ver no Mapa</a>
+        <!-- Headings and Typography -->
+        <div class="blessing-text">Com a bênção de Deus e seus pais</div>
+        
+        <div class="parents-grid">
+            <div>
+                <span>Iris Domingos Pereira</span>
+                <span>Romero Leite de Araújo</span>
             </div>
-
-            <!-- Details Badge (RSVP) -->
-            <a href="{% url 'rsvp' %}" class="scrap-item scrap-details">
-                <span>Presença</span>
-                <p>Confirme sua Presença</p>
-                <div class="tassel"></div>
-            </a>
-            
+            <div class="parents-ampersand">&amp;</div>
+            <div>
+                <span>Damares Silva de Lima Sousa</span>
+                <span>Givanildo Pinto de Sousa</span>
+            </div>
         </div>
 
-        <!-- Napkin (Gift List) -->
-        <a href="{% url 'gift_list' %}" class="scrap-item scrap-napkin">
-            <p>Acesse nossa<br>Lista de Presentes</p>
-        </a>
+        <h1 class="couple-names">Romão e Dhennyfy</h1>
+        
+        <div class="invitation-text">Convidam para a cerimônia de seu casamento</div>
 
-        <!-- Location Polaroid (Igreja/Local) -->
-        <div class="scrap-item scrap-polaroid polaroid-3">
-            <div class="polaroid-img-placeholder">
-                <!-- ADICIONE A FOTO DO LOCAL NA LINHA ABAIXO (SUBSTITUA FOTO_DO_LOCAL.jpg pelo nome da sua imagem) -->
-                <!-- <img src="{% static 'core/img/FOTO_DO_LOCAL.jpg' %}" alt="Local do Casamento"> -->
-                Foto do Local
+        <!-- Divider and Date -->
+        <div class="date-wrapper">
+            <div class="date-weekday">Quinta-feira</div>
+            <div class="date-main">23 de Julho de 2026</div>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="timer-title">Contagem regressiva</div>
+        <div id="countdown" class="timer-grid">
+            <div class="timer-col">
+                <span id="days">00</span>
+                <span class="timer-label">DIAS</span>
             </div>
-            <div class="polaroid-caption">O Local</div>
+            <span class="timer-separator">:</span>
+            <div class="timer-col">
+                <span id="hours">00</span>
+                <span class="timer-label">HORAS</span>
+            </div>
+            <span class="timer-separator">:</span>
+            <div class="timer-col">
+                <span id="minutes">00</span>
+                <span class="timer-label">MINUTOS</span>
+            </div>
+            <span class="timer-separator">:</span>
+            <div class="timer-col">
+                <span id="seconds">00</span>
+                <span class="timer-label">SEGUNDOS</span>
+            </div>
+        </div>
+
+        <!-- Bottom Scrapbook Elements -->
+        <div class="bottom-scrap-grid">
+            
+            <!-- Row 1 -->
+            <div class="scrap-row">
+                <!-- Left Side: Tilted Polaroid -->
+                <div class="polaroid-pic tilt-left">
+                    <div class="polaroid-img">
+                        <img src="/static/core/img/card_2.2.jpg" alt="">
+                    </div>
+                </div>
+                
+                <!-- Right Side: Event Details Card (Staggered Down) -->
+                <div class="details-card stagger-right">
+                    <h3>Detalhes do Evento</h3>
+                    <p class="location">Arretados Festa e Evento</p>
+                    <p class="time">Início às 16:30 da tarde</p>
+                    <a href="https://maps.app.goo.gl/rFEpD4f9WZQrb45N6" target="_blank" class="btn-pink">Ver no Mapa</a>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="scrap-row">
+                <!-- Left Side: RSVP Badge -->
+                <a href="{% url 'rsvp' %}" class="rsvp-card-styled">
+                    <h3>Presença</h3>
+                    <p>Confirme sua<br>presença</p>
+                </a>
+
+                <!-- Right Side: Tilted Polaroid (Staggered Down) -->
+                <div class="polaroid-pic tilt-right stagger-right" style="transform: rotate(8deg);">
+                    <div class="polaroid-img">
+                        <img src="/static/core/img/card_3.1.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Embedded Gifts Section -->
+        <div class="gifts-embedded-section" style="margin-bottom: 2rem;">
+            <div class="gifts-intro-text">
+                <p>Queridos amigos e familiares,</p><br>
+                <p>A presença de vocês já é o maior presente que poderíamos receber nesse momento tão especial. Deixamos aqui algumas sugestões apenas para quem desejar nos presentear de forma opcional, sem qualquer obrigação.</p><br>
+                <p>Para manter a harmonia da nossa futura casa, gostaríamos de seguir uma paleta de cores mais neutra e atemporal. Por isso, damos preferência para itens nas cores: <strong>branco, bege, madeira clara e tons neutros em geral</strong>, como mostram as imagens abaixo:</p>
+            </div>
+
+            <div class="color-palette-grid">
+                <div class="palette-box palette-branco">Branco/Bege</div>
+                <div class="palette-box palette-madeira">Madeira Clara</div>
+                <div class="palette-box palette-neutros">Tons Neutros</div>
+            </div>
+
+            <div class="gifts-intro-text" style="text-align: center; margin-top: 3rem;">
+                <p>Agradecemos imensamente todo carinho, apoio e amor compartilhado conosco!</p>
+            </div>
+        </div>
+
+        <!-- Embedded Pix Section -->
+        <div class="gifts-embedded-section pix-standalone" style="margin-top: 0;">
+            <h2 class="pix-title">Contribuir via PIX</h2>
+            <p style="color: #444; font-size: 0.9rem; margin-bottom: 2rem; font-family: var(--font-text);">Se preferir, você pode contribuir com qualquer valor através do nosso PIX:</p>
+            
+            <div class="qr-placeholder">
+                <img src="/static/core/img/QR_CODE.jpeg" alt="">
+            </div>
+
+            <div class="pix-key">
+                <strong>Chave PIX:</strong> contato.romaopereira@gmail.com
+            </div>
         </div>
 
     </div>
 </div>
+
+<script>
+    // Set the date we're counting down to (Jul 23, 2026 16:30:00)
+    const countDownDate = new Date("Jul 23, 2026 16:30:00").getTime();
+
+    // Update the count down every 1 second
+    const x = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "<div style='font-family: var(--font-heading); color: var(--accent-color);'>É HOJE!</div>";
+        }
+    }, 1000);
+</script>
 {% endblock %}

@@ -30,18 +30,17 @@
                             <li class="guest-item">
                                 <div class="guest-info">
                                     <strong>{{ guest.name }}</strong>
-                                    <span class="status-badge status-{{ guest.status }}">{{ guest.get_status_display }}</span>
                                 </div>
                                 <div class="guest-actions">
                                     <form method="POST" action="{% url 'rsvp_confirm' guest.id %}" class="inline-form">
                                         {% csrf_token %}
                                         <input type="hidden" name="status" value="confirmed">
-                                        <button type="submit" class="btn btn-small btn-success {% if guest.status == 'confirmed' %}active{% endif %}">Vou</button>
+                                        <button type="submit" class="btn btn-small btn-secondary">Vou</button>
                                     </form>
                                     <form method="POST" action="{% url 'rsvp_confirm' guest.id %}" class="inline-form">
                                         {% csrf_token %}
                                         <input type="hidden" name="status" value="declined">
-                                        <button type="submit" class="btn btn-small btn-danger {% if guest.status == 'declined' %}active{% endif %}">Não Vou</button>
+                                        <button type="submit" class="btn btn-small btn-secondary">Não Vou</button>
                                     </form>
                                 </div>
                             </li>
