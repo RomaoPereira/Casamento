@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "casamento/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "casamento/wsgi.py"
+        }
+    ]
+}
