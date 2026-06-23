@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Guest, Gift
 
-def landing_page(request):
-    return render(request, 'core/landing.html')
+def index_page(request):
+    return render(request, 'core/index.html')
 
 def invitation_page(request):
     return render(request, 'core/invitation.html')
