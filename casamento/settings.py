@@ -71,6 +71,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'casamento.wsgi.application'
 
 
+import dj_database_url
+import os
+
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -80,6 +83,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Use PostgreSQL if DATABASE_URL is set in environment
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
 
 # Password validation
