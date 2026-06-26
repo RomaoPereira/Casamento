@@ -11,10 +11,20 @@ def invitation_page(request):
 def rsvp_page(request):
     query = request.GET.get('q', '')
     guests = None
+    show_help_msg = False
+    
     if query:
         guests = Guest.objects.filter(name__icontains=query)
+        if not guests:
+            attempts = request.session.get('rsvp_failed_attempts', 0)
+            attempts += 1
+            request.session['rsvp_failed_attempts'] = attempts
+            if attempts >= 3:
+                show_help_msg = True
+        else:
+            request.session['rsvp_failed_attempts'] = 0
     
-    return render(request, 'core/rsvp.html', {'guests': guests, 'query': query})
+    return render(request, 'core/rsvp.html', {'guests': guests, 'query': query, 'show_help_msg': show_help_msg})
 
 def rsvp_confirm(request, guest_id):
     if request.method == 'POST':

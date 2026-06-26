@@ -20,6 +20,11 @@
             <input type="text" name="q" value="{{ query }}" placeholder="Digite seu nome (ex: João da Silva)" class="rsvp-input" required>
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
+        {% if show_help_msg %}
+        <p class="invitation-text" style="text-transform: none; margin-top: 1.5rem;">
+            Caso não encontre o seu nome, por favor, fale com o Noivo. Como nosso evento conta com uma lista fechada de convidados, ele poderá esclarecer qualquer dúvida.
+        </p>
+        {% endif %}
 
         {% if query %}
             <div class="rsvp-results">

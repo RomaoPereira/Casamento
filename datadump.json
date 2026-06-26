@@ -1,0 +1,83 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$5VnRuJJmK2s5BvmxTFhOrX$YHaxeV0E9Ym1OsW6xCXUjdVD16XgzmyGzbrl0z8DNXs=",
+        "last_login": "2026-05-13T21:20:52.956Z",
+        "is_superuser": true,
+        "username": "romao",
+        "first_name": "",
+        "last_name": "",
+        "email": "contato.romaopereira@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-13T21:20:24.564Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "4t3il6rdgqxseiezug5adnfli7qw2sfx",
+    "fields": {
+        "session_data": ".eJxVjEEOgkAMAP_Ss9lUanGXo3feQEq3FdRAwsLJ-HdDwkGvM5N5QyfbOnRbsaUbMzRwhtMv60WfNu0iP2S6z0HnaV3GPuxJOGwJ7ZztdTvav8EgZYAG0GIWck2MiKRsgrVecqSKRWuO5mx9Ur8qGlPlVKG7U7RElMwZPl_0fzhr:1wNH0e:xlmaRsb4FN8gRZAAd0Dtw102-A3VwsvSCsSkyztUljg",
+        "expire_date": "2026-05-27T21:20:52.961Z"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 1,
+    "fields": {
+        "name": "Romão",
+        "status": "declined"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 2,
+    "fields": {
+        "name": "Dhennyfy",
+        "status": "pending"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 3,
+    "fields": {
+        "name": "Iris Domingos Pereira",
+        "status": "declined"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 4,
+    "fields": {
+        "name": "Romero Leite de Araujo",
+        "status": "confirmed"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 5,
+    "fields": {
+        "name": "Isis Raquel Pereira de Araujo",
+        "status": "declined"
+    }
+},
+{
+    "model": "core.guest",
+    "pk": 6,
+    "fields": {
+        "name": "Romero Pereira de Araujo",
+        "status": "pending"
+    }
+},
+{
+    "model": "core.gift",
+    "pk": 1,
+    "fields": {
+        "name": "2 Pentes de Memoria Ram DDR5 5200Mhz para notebook",
+        "is_chosen": true
+    }
+}
+]
